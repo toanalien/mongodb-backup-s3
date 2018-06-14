@@ -13,6 +13,7 @@ docker run -d \
   --env MONGODB_PORT=27017 \
   --env MONGODB_USER=admin \
   --env MONGODB_PASS=password \
+  --env HEALTH_CHECK=https://hchk.io/xxx \
   halvves/mongodb-backup-s3
 ```
 
@@ -25,6 +26,7 @@ docker run -d \
   --env BUCKET=mybucketname \
   --env BACKUP_FOLDER=a/sub/folder/path/ \
   --env INIT_BACKUP=true \
+  --env HEALTH_CHECK=https://hchk.io/xxx \
   --link my_mongo_db:mongodb \
   halvves/mongodb-backup-s3
 ```
@@ -94,6 +96,7 @@ mongodbbackup:
 
 `DISABLE_CRON` - if set, it will skip setting up automated backups. good for when you want to use this container to seed a dev environment.
 
+`HEALTH_CHECK` - if set, it will send request to Health Check service.
 ## Restore from a backup
 
 To see the list of backups, you can run:
