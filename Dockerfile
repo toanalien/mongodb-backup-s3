@@ -1,6 +1,6 @@
 FROM mongo
 
-RUN apt-get update && apt-get -y install cron awscli wget
+RUN apt-get update && apt-get -y install cron awscli curl
 
 ENV CRON_TIME="0 3 * * *" \
   TZ=US/Eastern \
