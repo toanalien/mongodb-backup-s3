@@ -30,6 +30,7 @@ S3LATEST=${S3PATH}latest.dump.gz
 echo "=> Backup started"
 if mongodump --host ${MONGODB_HOST} --port ${MONGODB_PORT} ${USER_STR}${PASS_STR}${DB_STR} --archive=\${BACKUP_NAME} --gzip ${EXTRA_OPTS} && aws s3 cp \${BACKUP_NAME} \${S3BACKUP} && aws s3 cp \${S3BACKUP} \${S3LATEST} && rm \${BACKUP_NAME} ;then
     echo "   > Backup succeeded"
+    curl ${HEALTH_CHECK}
 else
     echo "   > Backup failed"
 fi
@@ -51,7 +52,6 @@ S3RESTORE=${S3PATH}\${RESTORE_ME}
 echo "=> Restore database from \${RESTORE_ME}"
 if aws s3 cp \${S3RESTORE} \${RESTORE_ME} && mongorestore --host ${MONGODB_HOST} --port ${MONGODB_PORT} ${USER_STR}${PASS_STR}${DB_STR} --drop --archive=\${RESTORE_ME} --gzip && rm \${RESTORE_ME}; then
     echo "   Restore succeeded"
-    curl '${HEALTH_CHECK}'
 else
     echo "   Restore failed"
 fi
